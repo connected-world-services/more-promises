@@ -26,7 +26,9 @@ describe("lib/index.js", () => {
 
 
     /**
-     * Get timer's elapsed time in milliseconds.
+     * Get timer's elapsed time in milliseconds. This adds 1 to the time
+     * in order to avoid rounding errors because Date objects are only accurate
+     * to the millisecond yet computers are far more accurate.
      *
      * @return {number}
      */
@@ -35,7 +37,7 @@ describe("lib/index.js", () => {
             return null;
         }
 
-        return new Date() - timer;
+        return new Date() - timer + 1;
     }
 
 
