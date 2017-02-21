@@ -334,19 +334,23 @@ describe("lib/index.js", () => {
                 });
             });
         });
-    });
-    it("waits for delayed promises and condenses the sparse array", () => {
-        // eslint-disable-next-line no-sparse-arrays
-        return morePromises.settle([
-            delayedPromise(15, 15), ,
-            "some value", ,
-            delayedPromise(5, 5), ,
-        ], {sparse: true}).then((result) => {
-            expect(result).toEqual([
-                15,
-                "some value",
-                5
-            ]);
+        it("waits for delayed promises and condenses the sparse rejection array", () => {
+            /* eslint-disable */
+            return morePromises.settle([
+                delayedPromise(15, 15),
+                delayedPromise(5, 5, true),
+                delayedPromise(10, null, true),
+                delayedPromise(5, undefined, true)
+            ], {
+                sparse: false
+            }).then(jasmine.fail, (rejection) => {
+                expect(rejection).toEqual([
+                    5,
+                    null,
+                    undefined
+                ]);
+            });
+            /* eslint-enable */
         });
     });
     describe("race()", () => {

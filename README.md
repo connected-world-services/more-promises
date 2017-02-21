@@ -233,13 +233,13 @@ Scans through all properties on `objectOrFunction` and checks if they are functi
 When all methods are changed, you're able to change you calls to node-style methods (eg. `fs.readFile()`) into ones that rely on returning `Promise` objects instead (eg. `fs.readFileAsync()`).
 
 
-### `returnedPromise = morePromises.settle(list)`
+### `returnedPromise = morePromises.settle(list, [options])`
 
 Returns a promise that is fulfilled when every promise in `list` is fulfilled. If any promise in `list` is rejected, the returned promise is rejected with a list of all rejections.
 
-When resolved or rejected, the array indexes or object property names are preserved.
+When resolved or rejected, the array indexes or object property names are preserved. If the `sparse` property on the `options` object is set to `false`, then the rejected promise list will be condensed, if it is a sparse array.
 
-    // The list can be an array or an object
+    // The list can be an array or an object.
     var list = {
         regularValue: 12345,
         fail1: Promise.reject("fail 1"),
@@ -252,6 +252,25 @@ When resolved or rejected, the array indexes or object property names are preser
         console.log("This will not happen because at least one promise is rejected");
     }, (rejectedList) => {
         // { fail1: "fail 1", fail2: undefined }
+        console.log(rejectedList);
+    });
+
+
+    // If the list is an array.
+    var array = [
+        "some value",
+        Promise.resolve("success"),
+        Promise.reject("fail"),
+        Promise.reject()
+    ];
+
+    // When the `sparse` option is set to `false`, the rejected promise list will have the indexes of resolved promises removed.
+    morePromises.settle(list, {
+        sparse: false
+    }).then(() => {
+        console.log("This will not happen because at least one promise is rejected");
+    }, (rejectedList) => {
+        // [ "fail", undefined ]
         console.log(rejectedList);
     });
 
