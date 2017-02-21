@@ -335,6 +335,20 @@ describe("lib/index.js", () => {
             });
         });
     });
+    it("waits for delayed promises and condenses the sparse array", () => {
+        // eslint-disable-next-line no-sparse-arrays
+        return morePromises.settle([
+            delayedPromise(15, 15), ,
+            "some value", ,
+            delayedPromise(5, 5), ,
+        ], {sparse: true}).then((result) => {
+            expect(result).toEqual([
+                15,
+                "some value",
+                5
+            ]);
+        });
+    });
     describe("race()", () => {
         it("resolves if the first one is resolved", () => {
             startTimer();
