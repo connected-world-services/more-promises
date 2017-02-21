@@ -341,12 +341,31 @@ describe("lib/index.js", () => {
                 delayedPromise(5, 5, true),
                 delayedPromise(10, null, true),
                 delayedPromise(5, undefined, true)
-            ], {
-                sparse: false
-            }).then(jasmine.fail, (rejection) => {
+            ]).then(jasmine.fail, (rejection) => {
                 expect(rejection).toEqual([
                     5,
                     null,
+                    undefined
+                ]);
+            });
+            /* eslint-enable */
+        });
+        it("waits for delayed promises and doesn't condense the sparse rejection array", () => {
+            /* eslint-disable */
+            return morePromises.settle([
+                delayedPromise(15, 15),
+                delayedPromise(5, 5, true),
+                delayedPromise(10, null, true),
+                delayedPromise(15, 15),
+                delayedPromise(5, undefined, true)
+            ], {
+                sparse: true
+            }).then(jasmine.fail, (rejection) => {
+                expect(rejection).toEqual([
+                    ,
+                    5,
+                    null,
+                    ,
                     undefined
                 ]);
             });

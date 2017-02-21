@@ -237,7 +237,7 @@ When all methods are changed, you're able to change you calls to node-style meth
 
 Returns a promise that is fulfilled when every promise in `list` is fulfilled. If any promise in `list` is rejected, the returned promise is rejected with a list of all rejections.
 
-When resolved or rejected, the array indexes or object property names are preserved. If the `sparse` property on the `options` object is set to `false`, then the rejected promise list will be condensed, if it is a sparse array.
+When resolved, the array indexes or object property names are preserved. When rejected, the array indexes will not be preserved, unless the `sparse` property on the `options` object is set to `true`.
 
     // The list can be an array or an object.
     var list = {
@@ -256,23 +256,32 @@ When resolved or rejected, the array indexes or object property names are preser
     });
 
 
-    // If the list is an array.
-    var array = [
-        "some value",
-        Promise.resolve("success"),
-        Promise.reject("fail"),
-        Promise.reject()
+    // Create an array of promises.
+    var promiseList = [
+        Promise.resolve("anything"),
+        Promise.reject(new Error("bad things")),
+        Promise.reject() // Rejecting with undefined
     ];
 
-    // When the `sparse` option is set to `false`, the rejected promise list will have the indexes of resolved promises removed.
-    morePromises.settle(list, {
-        sparse: false
-    }).then(() => {
-        console.log("This will not happen because at least one promise is rejected");
-    }, (rejectedList) => {
-        // [ "fail", undefined ]
+    // The rejected promise list will have the indexes of resolved promises removed.
+    morePromises.settle(promiseList).then(() => {}, (rejectedList) => {
+        // Notice that the rejection with an undefined value is preserved
+        // in rejectedList.
+        // [ Error("bad things"), undefined ]
         console.log(rejectedList);
     });
+
+    // Same thing, but the rejectionList will preserve the indexes of the original array.
+    morePromises.settle(promiseList, {
+        sparse: true
+    }).then(() => {}, (rejectedList) => {
+        // Careful - the first element is not defined, but the rejectedList does
+        // not even have the key 0 defined.
+        // [ , Error("bad things"), undefined ]
+        console.log(rejectedList);
+        // [ 1, 2 ]
+        console.log(Object.keys(rejectedList));
+    })
 
 
 ### `returnedPromise = morePromises.race(list)`
