@@ -233,13 +233,13 @@ Scans through all properties on `objectOrFunction` and checks if they are functi
 When all methods are changed, you're able to change you calls to node-style methods (eg. `fs.readFile()`) into ones that rely on returning `Promise` objects instead (eg. `fs.readFileAsync()`).
 
 
-### `returnedPromise = morePromises.settle(list)`
+### `returnedPromise = morePromises.settle(list, [options])`
 
 Returns a promise that is fulfilled when every promise in `list` is fulfilled. If any promise in `list` is rejected, the returned promise is rejected with a list of all rejections.
 
-When resolved or rejected, the array indexes or object property names are preserved.
+When resolved, the array indexes or object property names are preserved. When rejected, the array indexes will not be preserved, unless the `sparse` property on the `options` object is set to `true`.
 
-    // The list can be an array or an object
+    // The list can be an array or an object.
     var list = {
         regularValue: 12345,
         fail1: Promise.reject("fail 1"),
@@ -254,6 +254,34 @@ When resolved or rejected, the array indexes or object property names are preser
         // { fail1: "fail 1", fail2: undefined }
         console.log(rejectedList);
     });
+
+
+    // Create an array of promises.
+    var promiseList = [
+        Promise.resolve("anything"),
+        Promise.reject(new Error("bad things")),
+        Promise.reject() // Rejecting with undefined
+    ];
+
+    // The rejected promise list will have the indexes of resolved promises removed.
+    morePromises.settle(promiseList).then(() => {}, (rejectedList) => {
+        // Notice that the rejection with an undefined value is preserved
+        // in rejectedList.
+        // [ Error("bad things"), undefined ]
+        console.log(rejectedList);
+    });
+
+    // Same thing, but the rejectionList will preserve the indexes of the original array.
+    morePromises.settle(promiseList, {
+        sparse: true
+    }).then(() => {}, (rejectedList) => {
+        // Careful - the first element is not defined, but the rejectedList does
+        // not even have the key 0 defined.
+        // [ , Error("bad things"), undefined ]
+        console.log(rejectedList);
+        // [ 1, 2 ]
+        console.log(Object.keys(rejectedList));
+    })
 
 
 ### `returnedPromise = morePromises.race(list)`
