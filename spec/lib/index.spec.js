@@ -335,41 +335,44 @@ describe("lib/index.js", () => {
             });
         });
         it("waits for delayed promises and condenses the sparse rejection array", () => {
-            /* eslint-disable */
             return morePromises.settle([
                 delayedPromise(15, 15),
                 delayedPromise(5, 5, true),
                 delayedPromise(10, null, true),
+                // eslint-disable-next-line no-undefined
                 delayedPromise(5, undefined, true)
             ]).then(jasmine.fail, (rejection) => {
                 expect(rejection).toEqual([
                     5,
                     null,
+                    // eslint-disable-next-line no-undefined
                     undefined
                 ]);
             });
-            /* eslint-enable */
         });
         it("waits for delayed promises and doesn't condense the sparse rejection array", () => {
-            /* eslint-disable */
             return morePromises.settle([
                 delayedPromise(15, 15),
                 delayedPromise(5, 5, true),
                 delayedPromise(10, null, true),
                 delayedPromise(15, 15),
+                // eslint-disable-next-line no-undefined
                 delayedPromise(5, undefined, true)
             ], {
                 sparse: true
             }).then(jasmine.fail, (rejection) => {
+                // eslint-disable-next-line no-sparse-arrays
                 expect(rejection).toEqual([
+                    // eslint-disable-next-line comma-style
                     ,
                     5,
                     null,
+                    // eslint-disable-next-line comma-style
                     ,
+                    // eslint-disable-next-line no-undefined
                     undefined
                 ]);
             });
-            /* eslint-enable */
         });
     });
     describe("race()", () => {
