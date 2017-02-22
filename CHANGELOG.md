@@ -2,6 +2,13 @@ CHANGELOG
 =========
 
 
+1.1.1 - 2017-02-22
+------------------
+
+* Corrected links in documentation to point at the right organization.
+* No code changes.
+
+
 1.1.0 - 2017-02-22
 ------------------
 

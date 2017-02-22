@@ -374,14 +374,14 @@ License
 This software is licensed under a [MIT license][LICENSE] that contains additional non-advertising and patent-related clauses.  [Read full license terms][LICENSE]
 
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/tests-always-included/more-promises/master.svg
-[codecov-link]: https://codecov.io/github/tests-always-included/more-promises?branch=master
-[dependencies-badge]: https://img.shields.io/david/tests-always-included/more-promises.svg
-[dependencies-link]: https://david-dm.org/tests-always-included/more-promises
-[devdependencies-badge]: https://img.shields.io/david/dev/tests-always-included/more-promises.svg
-[devdependencies-link]: https://david-dm.org/tests-always-included/more-promises#info=devDependencies
+[codecov-badge]: https://img.shields.io/codecov/c/github/connected-world-services/more-promises/master.svg
+[codecov-link]: https://codecov.io/github/connected-world-services/more-promises?branch=master
+[dependencies-badge]: https://img.shields.io/david/connected-world-services/more-promises.svg
+[dependencies-link]: https://david-dm.org/connected-world-services/more-promises
+[devdependencies-badge]: https://img.shields.io/david/dev/connected-world-services/more-promises.svg
+[devdependencies-link]: https://david-dm.org/connected-world-services/more-promises#info=devDependencies
 [LICENSE]: LICENSE.md
 [npm-badge]: https://img.shields.io/npm/v/more-promises.svg
 [npm-link]: https://npmjs.org/package/more-promises
-[travis-badge]: https://img.shields.io/travis/tests-always-included/more-promises/master.svg
-[travis-link]: http://travis-ci.org/tests-always-included/more-promises
+[travis-badge]: https://img.shields.io/travis/connected-world-services/more-promises/master.svg
+[travis-link]: http://travis-ci.org/connected-world-services/more-promises

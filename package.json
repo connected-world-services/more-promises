@@ -1,6 +1,6 @@
 {
     "name": "more-promises",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Helpful functions that deal with promises. Avoid fast-failing and wait for all promises to be settled, iterate over arrays and objects, useful promise generation functions, promisify and callbackify.",
     "main": "lib/index.js",
     "scripts": {
